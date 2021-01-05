@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "RandomUtility.h"
+#include "CoreRandomUtility.h"
+#include "CoreDefinitions.h"
 
-int filterValidPointsFromCoreBoard(CoreBoard board, CorePoint* validPoints)
+int filterValidPointsFromCoreBoard(const CoreBoard board, CorePoint* validPoints)
 {
     int validPointsCount = 0;
-    for (int i = 0; i < COR_BOARD_SIZE; ++i) {
-        for (int j = 0; j < COR_BOARD_SIZE; ++j) {
-            if (board[i][j] == CPC_SIDE_EMPTY) {
+    for (int i = 0; i < CORE_BOARD_SIZE; ++i) {
+        for (int j = 0; j < CORE_BOARD_SIZE; ++j) {
+            if (board[i][j] == CORE_SIDE_EMPTY) {
                 CorePoint point = { i, j };
                 validPoints[validPointsCount++] = point;
             }

@@ -1,42 +1,78 @@
 #include "Core.h"
 #include "CoreDefinitions.h"
-#include "CoreUtility.h"
+#include "CoreBoard.h"
 #include "CoreRandom.h"
+#include "CoreRenjuGroupList.h"
 
-CorePoint getCorePointFromCoreAlgorithm(CoreBoard board, const CorePrefabConfig* const prefabConfig)
+#include <stdlib.h>
+
+TaggedRenjuGroupListPool* pool = NULL;
+
+void initializeGobangCore()
+{
+    pool = getNewTaggedRenjuGroupListPool(GENERAL_TAGGED_RENJU_GROUP_LIST_POOL_CAPACITY);
+}
+
+void releaseGobangCore()
+{
+    releaseTaggedRenjuGroupListPool(&pool);
+}
+
+void createNewCoreGameWithTag(CoreGameTag tag, CoreSide favors)
+{
+    addNewTaggedRenjuGroupListToTaggedRenjuGroupListPool(tag, favors, pool);
+}
+
+void addNewMovePieceToCoreGameWithTag(CoreSide side, CorePoint point, CoreGameTag tag)
+{
+    if (isCoreSideValid(side) && isCorePointValid(point)) {
+        RenjuGroupList* list = getRenjuGroupListInTaggedRenjuGroupListPoolWithTag(pool, tag);
+        if (list == NULL) {
+            addNewTaggedRenjuGroupListToTaggedRenjuGroupListPool(tag, side, pool);
+            list = getRenjuGroupListInTaggedRenjuGroupListPoolWithTag(pool, tag);
+        }
+        addNewMoveToRenjuGroupList(side, point, list);
+    }
+}
+
+void removeCoreGameWithTag(CoreGameTag tag)
+{
+    removeTaggedRenjuGroupListInTaggedRenjuGroupListPool(tag, pool);
+}
+
+CorePoint getCorePointFromCoreAlgorithm(const CorePrefabConfig* config, CoreGameTag tag)
 {
     CorePoint point = { -1, -1 };
-    if (isCoreBoardFull(board)) return point;
-
-    switch (prefabConfig->level)
+    RenjuGroupList* list = getRenjuGroupListInTaggedRenjuGroupListPoolWithTag(pool, tag);
+    if (list == NULL || isCoreBoardFull(list->gameBoard)) return point;
+    switch (config->level)
     {
-        case CPC_LEVEL_DRUNK:
+        case CORE_LEVEL_DRUNK:
         {
-            return getCorePointFromRandomAlgorithm(board);
+            return getCorePointFromRandomAlgorithm(list->gameBoard);
         }
-        case CPC_LEVEL_LOW:
-        {
-            // TODO
-            return point;
-        }
-        case CPC_LEVEL_MIDDLE:
+        case CORE_LEVEL_LOW:
         {
             // TODO
             return point;
         }
-        case CPC_LEVEL_HIGH:
+        case CORE_LEVEL_MIDDLE:
+        {
+            point = getCorePointFromRenjuGroupAlgorithm(list);
+            return point;
+        }
+        case CORE_LEVEL_HIGH:
         {
             // TODO
             return point;
         }
-        case CPC_LEVEL_RANDOM:
+        case CORE_LEVEL_RANDOM:
         {
             // TODO
             return point;
         }
         default:
         {
-            point.i = point.j = 0;
             return point;
         }
     }

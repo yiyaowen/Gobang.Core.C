@@ -3,6 +3,6 @@
 
 #include "CoreDefinitions.h"
 
-CorePoint getCorePointFromRandomAlgorithm(CoreBoard board);
+CorePoint getCorePointFromRandomAlgorithm(const CoreBoard board);
 
 #endif // CORE_RANDOM_H
