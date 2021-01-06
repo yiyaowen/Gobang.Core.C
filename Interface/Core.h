@@ -7,13 +7,25 @@
  * Initialize gobang core.
  * If you invoke any gobang core function before initializing, the result will be undefined.
  */
-void initializeGobangCore();
+ void initializeGobangCore();
 
  /**
   * Release gobang core.
   * If you invoke any gobang core function after releasing, the result will be undefined.
   */
-void releaseGobangCore();
+  void releaseGobangCore();
+
+/**
+ * Create a new gobang game with the specific tag.
+ *
+ * @param tag The tag of new gobang game.
+ *
+ * @param favors The side in the new gobang game you want to analyse, which should not be changed
+ *               during a gobang game's life cycle. Otherwise the analysis result of gobang game
+ *               will be undefined and the error will be irreversible. If the favors is changed by
+ *               accident, it is recommended to create another new gobang game with the same favors.
+ */
+void createNewCoreGameWithTag(CoreGameTag tag, CoreSide favors);
 
 /**
  * Add new move piece to the specific gobang game.
@@ -36,9 +48,9 @@ void releaseGobangCore();
  *            gobang games created before will be removed directly to make space for the new gobang
  *            game. You can remove the useless gobang game manually to prevent this from happening.
  */
-void addNewMovePieceToCoreGameWithTag(CoreSide side, CorePoint point, CoreGameTag tag);
+ void addNewMovePieceToCoreGameWithTag(CoreSide side, CorePoint point, CoreGameTag tag);
 
-void removeCoreGameWithTag(CoreGameTag tag);
+ void removeCoreGameWithTag(CoreGameTag tag);
 
 /**
  * Get the analysis result from core algorithm.
@@ -57,6 +69,6 @@ void removeCoreGameWithTag(CoreGameTag tag);
  *
  * @return The best move point for the specific prefab configuration.
  */
-CorePoint  getCorePointFromCoreAlgorithm(const CorePrefabConfig* config, CoreGameTag tag);
+ CorePoint  getCorePointFromCoreAlgorithm(const CorePrefabConfig* config, CoreGameTag tag);
 
 #endif // CORE_H
