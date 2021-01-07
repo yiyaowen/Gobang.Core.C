@@ -71,4 +71,14 @@ void createNewCoreGameWithTag(CoreGameTag tag, CoreSide favors);
  */
  CorePoint  getCorePointFromCoreAlgorithm(const CorePrefabConfig* config, CoreGameTag tag);
 
+ /**
+  * Get the winner side in the specific gobang game.
+  *
+  * @param tag Specify the gobang game to be checked.
+  *
+  * @return The winner side. [CORE_SIDE_BLACK for black winner], [CORE_SIDE_WHITE for white winner].
+  *         If the game is still going on, the function simply returns [CORE_SIDE_EMPTY].
+  */
+  CoreSide getWinnerSideInCoreGameWithTag(CoreGameTag tag);
+
 #endif // CORE_H

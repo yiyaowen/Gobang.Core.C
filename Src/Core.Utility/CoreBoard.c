@@ -12,22 +12,8 @@ bool isCoreBoardFull(const CoreBoard board)
     return true;
 }
 
-#include <stdio.h>
-void printScoreBoard(CoreBoard board)
-{
-    for (int i = 0; i < CORE_BOARD_SIZE; ++i) {
-        for (int j = 0; j < CORE_BOARD_SIZE-1; ++j) {
-            printf("%6d, ", board[i][j]);
-        }
-        printf("%6d\n", board[i][CORE_BOARD_SIZE - 1]);
-    }
-    printf("\n");
-    fflush(stdout);
-}
-
 CorePoint getMaxScorePointInCoreScoreBoard(CoreScoreBoard board)
 {
-    printScoreBoard(board);
     CorePoint point = { -1, -1 };
     int tmpMaxScore = 0;
     for (int i = 0; i < CORE_BOARD_SIZE; ++i) {

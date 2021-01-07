@@ -77,3 +77,9 @@ CorePoint getCorePointFromCoreAlgorithm(const CorePrefabConfig* config, CoreGame
         }
     }
 }
+
+CoreSide getWinnerSideInCoreGameWithTag(CoreGameTag tag)
+{
+    RenjuGroupList* list = getRenjuGroupListInTaggedRenjuGroupListPoolWithTag(pool, tag);
+    return getWinnerInRenjuGroupList(list);
+}
